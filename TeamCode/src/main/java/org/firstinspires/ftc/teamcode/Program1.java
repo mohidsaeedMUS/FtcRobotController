@@ -105,8 +105,11 @@ public class Program1 extends LinearOpMode {
         while (opModeIsActive()) {
             double leftFrontPower = 0.0;
 
-            if (gamepad1.x) {
+            if (gamepad1.right_bumper) {
                 leftFrontPower = 1.0;
+            }
+            else if (gamepad1.left_bumper) {
+                leftFrontPower = -1.0;
             }
             else {
                 leftFrontPower = 0.0;
