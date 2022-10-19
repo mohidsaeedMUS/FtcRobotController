@@ -67,7 +67,7 @@ public class Program2 extends LinearOpMode {
         Mat Cb = new Mat();
 
         private volatile int average;
-        private volatile TYPE type = TYPE.BALL;
+        private volatile TYPE type = TYPE.NADA;
 
         private void inputToCb(Mat input) {
             Imgproc.cvtColor(input, YCrCb, Imgproc.COLOR_RGB2YCrCb);
@@ -90,9 +90,9 @@ public class Program2 extends LinearOpMode {
             Imgproc.rectangle(input, topLeft, bottomRight, BLUE, 2);
 
             if (average > THRESHOLD) {
-                type = TYPE.BALL;
+                type = TYPE.NADA;
             } else {
-                type = TYPE.CUBE;
+                type = TYPE.YELLOW;
             }
 
             return input;
@@ -107,7 +107,7 @@ public class Program2 extends LinearOpMode {
         }
 
         public enum TYPE {
-            BALL, CUBE
+            NADA, YELLOW
         }
     }
 }
