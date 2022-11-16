@@ -74,6 +74,8 @@ public class Program3 extends LinearOpMode {
     private DcMotor leftBackDrive = null;
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
+    private DcMotor arm = null;
+    private DcMotor claw = null;
 
     @Override
     public void runOpMode() {
@@ -84,6 +86,8 @@ public class Program3 extends LinearOpMode {
         leftBackDrive  = hardwareMap.get(DcMotor.class, "left_back_drive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
+        arm = hardwareMap.get(DcMotor.class, "arm");
+        claw = hardwareMap.get(DcMotor.class, "claw");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -124,6 +128,9 @@ public class Program3 extends LinearOpMode {
             double leftBackPower   = axial - lateral + yaw;
             double rightBackPower  = axial + lateral - yaw;
 
+            double armPower = 0.0;
+            double clawPower = 0.0;
+
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
             max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
@@ -148,10 +155,33 @@ public class Program3 extends LinearOpMode {
             // Once the correct motors move in the correct direction re-comment this code.
 
 
-            leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
-            leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
-            rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
-            rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+            //leftFrontPower  = gamepad1.x ? 1.0 : 0.0;  // X gamepad
+            //leftBackPower   = gamepad1.a ? 1.0 : 0.0;  // A gamepad
+            //rightFrontPower = gamepad1.y ? 1.0 : 0.0;  // Y gamepad
+            //rightBackPower  = gamepad1.b ? 1.0 : 0.0;  // B gamepad
+
+            //armPower = gamepad1.right_bumper ? 1.0 : gamepad1.left_bumper ? -1.0 : 0.0;
+            //clawPower = gamepad1.right_trigger > 0 ? 1.0 : gamepad1.left_trigger > 0 ? -1.0 : 0;
+
+            if (gamepad1.right_bumper) {
+                armPower = 0.57;
+            }
+            else if (gamepad1.left_bumper){
+                armPower = -0.57;
+            }
+            else {
+                armPower = 0;
+            }
+
+            if (gamepad1.right_trigger > 0) {
+                clawPower = 0.5;
+            }
+            else if (gamepad1.left_trigger > 0) {
+                clawPower = -0.5;
+            }
+            else {
+                clawPower = 0;
+            }
 
 
             // Send calculated power to wheels
@@ -159,11 +189,17 @@ public class Program3 extends LinearOpMode {
             rightFrontDrive.setPower(rightFrontPower);
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
+            arm.setPower(armPower);
+            claw.setPower(clawPower);
+
+
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
+            telemetry.addData("Arm power", "%4.2f", armPower);
+            telemetry.addData("Claw power", "%4.2f", clawPower);
             telemetry.update();
         }
     }}
