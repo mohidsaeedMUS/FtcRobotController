@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -75,7 +76,7 @@ public class Program3 extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor arm = null;
-    private DcMotor claw = null;
+    private Servo claw = null;
 
     @Override
     public void runOpMode() {
@@ -87,7 +88,7 @@ public class Program3 extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        claw = hardwareMap.get(DcMotor.class, "claw");
+        claw = hardwareMap.get(Servo.class, "claw");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -163,24 +164,25 @@ public class Program3 extends LinearOpMode {
             //armPower = gamepad1.right_bumper ? 1.0 : gamepad1.left_bumper ? -1.0 : 0.0;
             //clawPower = gamepad1.right_trigger > 0 ? 1.0 : gamepad1.left_trigger > 0 ? -1.0 : 0;
 
+
             if (gamepad1.right_bumper) {
-                armPower = 0.57;
+                armPower = 1.00;
             }
             else if (gamepad1.left_bumper){
-                armPower = -0.57;
+                armPower = -1.00;
             }
             else {
                 armPower = 0;
             }
 
             if (gamepad1.right_trigger > 0) {
-                clawPower = 0.5;
+                claw.setPosition(180);
             }
             else if (gamepad1.left_trigger > 0) {
-                clawPower = -0.5;
+                claw.setPosition(0);
             }
             else {
-                clawPower = 0;
+                claw.setPosition(0);
             }
 
 
@@ -190,7 +192,6 @@ public class Program3 extends LinearOpMode {
             leftBackDrive.setPower(leftBackPower);
             rightBackDrive.setPower(rightBackPower);
             arm.setPower(armPower);
-            claw.setPower(clawPower);
 
 
 
