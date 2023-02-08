@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -76,7 +77,10 @@ public class Program3 extends LinearOpMode {
     private DcMotor rightFrontDrive = null;
     private DcMotor rightBackDrive = null;
     private DcMotor arm = null;
-    private Servo claw = null;
+    private Servo leftClaw = null;
+    private Servo rightClaw = null;
+    private Servo clawRot = null;
+    private DigitalChannel sensor = null;
 
     @Override
     public void runOpMode() {
@@ -88,7 +92,10 @@ public class Program3 extends LinearOpMode {
         rightFrontDrive = hardwareMap.get(DcMotor.class, "right_front_drive");
         rightBackDrive = hardwareMap.get(DcMotor.class, "right_back_drive");
         arm = hardwareMap.get(DcMotor.class, "arm");
-        claw = hardwareMap.get(Servo.class, "claw");
+        leftClaw = hardwareMap.get(Servo.class, "left_claw");
+        rightClaw = hardwareMap.get(Servo.class, "right_claw");
+        clawRot = hardwareMap.get(Servo.class, "clawRot");
+        sensor = hardwareMap.get(DigitalChannel.class, "sensor");
 
         // ########################################################################################
         // !!!            IMPORTANT Drive Information. Test your motor directions.            !!!!!
@@ -117,6 +124,9 @@ public class Program3 extends LinearOpMode {
         while (opModeIsActive()) {
             double max;
 
+            sensor.setMode(DigitalChannel.Mode.INPUT);
+            telemetry.addData("Claw position", "%4.2f, %4.2f", leftClaw.getPosition(), rightClaw.getPosition());
+
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
             double axial   = -gamepad1.left_stick_y;  // Note: pushing stick forward gives negative value
             double lateral =  gamepad1.left_stick_x;
@@ -130,7 +140,8 @@ public class Program3 extends LinearOpMode {
             double rightBackPower  = axial + lateral - yaw;
 
             double armPower = 0.0;
-            double clawPower = 0.0;
+
+            boolean switchActive = sensor.getState();
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -175,14 +186,26 @@ public class Program3 extends LinearOpMode {
                 armPower = 0;
             }
 
+            // close
             if (gamepad1.right_trigger > 0) {
-                claw.setPosition(180);
+               // left claw
+               leftClaw.setPosition(0);
+               // right claw
+               rightClaw.setPosition(0.7);
             }
+            // open
             else if (gamepad1.left_trigger > 0) {
-                claw.setPosition(0);
+                leftClaw.setPosition(0.35);
+                rightClaw.setPosition(0.25);
             }
-            else {
-                claw.setPosition(0);
+
+            if (gamepad1.y) {
+                // Raise up
+                clawRot.setPosition(0);
+            }
+            else if (gamepad1.a) {
+                // Lower down
+                clawRot.setPosition(0.9);
             }
 
 
@@ -194,13 +217,12 @@ public class Program3 extends LinearOpMode {
             arm.setPower(armPower);
 
 
-
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Front left/Right", "%4.2f, %4.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right", "%4.2f, %4.2f", leftBackPower, rightBackPower);
             telemetry.addData("Arm power", "%4.2f", armPower);
-            telemetry.addData("Claw power", "%4.2f", clawPower);
+            telemetry.addData("Claw rot", clawRot.getPosition());
             telemetry.update();
         }
     }}
