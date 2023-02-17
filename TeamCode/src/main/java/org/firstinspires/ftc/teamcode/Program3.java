@@ -110,7 +110,7 @@ public class Program3 extends LinearOpMode {
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
         leftBackDrive.setDirection(DcMotor.Direction.REVERSE);
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
 
         // Wait for the game to start (driver presses PLAY)
@@ -196,7 +196,7 @@ public class Program3 extends LinearOpMode {
             // open
             else if (gamepad1.left_trigger > 0) {
                 leftClaw.setPosition(0.35);
-                rightClaw.setPosition(0.25);
+                rightClaw.setPosition(0.35);
             }
 
             if (gamepad1.y) {
