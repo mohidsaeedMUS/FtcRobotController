@@ -238,15 +238,33 @@ public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
             leftClaw.setPosition(0.35);
             rightClaw.setPosition(0.35);
             encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
-            encoderDrive(DRIVE_SPEED, 7, 7, 1.0);
-
-
-
+            encoderDrive(DRIVE_SPEED, 7, 7, 1.5);
+            
 
         }else if(tagOfInterest.id == MIDDLE){
             //middle trajectory
+            leftClaw.setPosition(0);
+            rightClaw.setPosition(0.7);
+            sleep(2000);
+            armDrive(DRIVE_SPEED, 5, 6.0);
+            encoderStrafe(DRIVE_SPEED, 30, 30, 4.5);
+            // open claw
+            leftClaw.setPosition(0.35);
+            rightClaw.setPosition(0.35);
+            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
+            //encoderDrive(DRIVE_SPEED, 7, 7, 1.5);
         }else{
             //right trajectory
+            leftClaw.setPosition(0);
+            rightClaw.setPosition(0.7);
+            sleep(2000);
+            armDrive(DRIVE_SPEED, 5, 6.0);
+            encoderStrafe(DRIVE_SPEED, 30, 30, 4.5);
+            // open claw
+            leftClaw.setPosition(0.35);
+            rightClaw.setPosition(0.35);
+            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
+            encoderDrive(DRIVE_SPEED, -7, -7, 1.5);
         }
 
 
