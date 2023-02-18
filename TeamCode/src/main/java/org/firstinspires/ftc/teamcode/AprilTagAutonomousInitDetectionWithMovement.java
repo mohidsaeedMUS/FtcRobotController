@@ -237,8 +237,8 @@ public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
             // open claw
             leftClaw.setPosition(0.35);
             rightClaw.setPosition(0.35);
-            encoderStrafe(DRIVE_SPEED, -30, -30, 4.5);
-            encoderDrive(DRIVE_SPEED, 7, 7, 2);
+            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
+            encoderDrive(DRIVE_SPEED, 7, 7, 1.0);
 
 
 
