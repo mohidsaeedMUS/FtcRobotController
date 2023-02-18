@@ -24,7 +24,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -37,8 +36,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@TeleOp(name = "Autonomous")
-public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
+@TeleOp(name = "Autonomous 2")
+public class AprilTagAutonomousInitDetectionWithMovementRED extends LinearOpMode
 {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -228,18 +227,20 @@ public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
         if(tagOfInterest == null){
             //default trajectory here if preferred
         }else if(tagOfInterest.id == LEFT){
-
+            // left trajectory
             leftClaw.setPosition(0);
             rightClaw.setPosition(0.7);
             sleep(2000);
             armDrive(DRIVE_SPEED, 5, 6.0);
             encoderStrafe(DRIVE_SPEED, 30, 30, 4.5);
+            encoderDrive(DRIVE_SPEED, 20, -20, 2.0);
+            encoderDrive(DRIVE_SPEED, 20, 20, 0.5);
             // open claw
             leftClaw.setPosition(0.35);
             rightClaw.setPosition(0.35);
-            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
-            encoderDrive(DRIVE_SPEED, 7, 7, 1.5);
-
+            encoderStrafe(DRIVE_SPEED, 30, 30, 2.61);
+            encoderDrive(DRIVE_SPEED, -7, -7, 1.5);
+            
 
         }else if(tagOfInterest.id == MIDDLE){
             //middle trajectory
@@ -248,11 +249,13 @@ public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
             sleep(2000);
             armDrive(DRIVE_SPEED, 5, 6.0);
             encoderStrafe(DRIVE_SPEED, 30, 30, 4.5);
+            encoderDrive(DRIVE_SPEED, 20, -20, 2.0);
+            encoderDrive(DRIVE_SPEED, 20, 20, 0.5);
             // open claw
             leftClaw.setPosition(0.35);
             rightClaw.setPosition(0.35);
-            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
-            //encoderDrive(DRIVE_SPEED, 7, 7, 1.5);
+            encoderStrafe(DRIVE_SPEED, 30, 30, 2.61);
+            //encoderDrive(DRIVE_SPEED, -7, -7, 1.5);
         }else{
             //right trajectory
             leftClaw.setPosition(0);
@@ -260,11 +263,13 @@ public class AprilTagAutonomousInitDetectionWithMovement extends LinearOpMode
             sleep(2000);
             armDrive(DRIVE_SPEED, 5, 6.0);
             encoderStrafe(DRIVE_SPEED, 30, 30, 4.5);
+            encoderDrive(DRIVE_SPEED, 20, -20, 2.0);
+            encoderDrive(DRIVE_SPEED, 20, 20, 0.5);
             // open claw
             leftClaw.setPosition(0.35);
             rightClaw.setPosition(0.35);
-            encoderStrafe(DRIVE_SPEED, -30, -30, 2.61);
-            encoderDrive(DRIVE_SPEED, -7, -7, 1.5);
+            encoderStrafe(DRIVE_SPEED, 30, 30, 2.61);
+            encoderDrive(DRIVE_SPEED, 7, 7, 1.5);
         }
 
 
